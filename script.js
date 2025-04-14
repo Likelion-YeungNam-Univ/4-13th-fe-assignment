@@ -15,11 +15,16 @@ const updateHistory = () => {
   historyWrap.innerHTML = "";
 
   // 2. historyWrap 내 계산 기록(historyList) 요소들 추가 ✅
+  historyList.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `${item.formula} = ${item.result} <button onclick="deleteHistory(${index})">❌</button>`;
+    historyWrap.appendChild(li);
+  });
 };
 
 const deleteHistory = (index) => {
   // historyList에서 해당 인덱스 요소 제거 ✅
-
+  historyList.splice(index, 1);
   updateHistory();
 };
 
@@ -30,13 +35,18 @@ const calculate = (e) => {
   const input = e.target.innerText;
 
   // 2. 클릭된 값에 따라 동작 구현(=, C, ←, 나머지) ✅
-  if (input === "==") {
+  if (input === "=") {
     if (formula === "") return;
 
-    try {
-      resultNum = eval(formula);
-      resultNum = Math.round(resultNum * 100) / 100;
-    } catch {}
+    resultNum = eval(formula);
+    resultNum = Math.round(resultNum * 100) / 100; //소수점 아래 두 번째 까지로 맞춰주는 코드
+    result.innerText = resultNum;
+    historyList.unshift({ formula, result: resultNum });
+
+    updateHistory();
+
+    formula = resultNum.toString();
+    // result.innerText = "";
   } else if (input === "C") {
     formula = "";
     result.innerText = "";
@@ -48,6 +58,7 @@ const calculate = (e) => {
     formula += input;
     result.innerText = formula;
   }
+
   // 추가 정보
   // HTML 내의 &#8592; 는 화살표이며, JavaScript에선 ← 를 사용
   // formula 내의 수식을 계산할 때는 resultNum = eval(formula) 를 사용
