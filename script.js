@@ -17,7 +17,7 @@ const updateHistory = () => {
   // 2. historyWrap 내 계산 기록(historyList) 요소들 추가 ✅
   historyList.forEach((item, index) => {
     const li = document.createElement("li");
-    li.innerHTML = `${item.formula} = ${item.result} <button onclick="deleteHistory(${index})">❌</button>`;
+    li.innerHTML = `${item.formula} = ${item.result} <button style="padding:0" onclick="deleteHistory(${index})">❌</button>`;
     historyWrap.appendChild(li);
   });
 };
