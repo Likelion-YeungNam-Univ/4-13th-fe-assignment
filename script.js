@@ -11,25 +11,32 @@ let historyList = []; // 계산 기록
 const updateHistory = () => {
   // 1. historyWrap 내 HTML 초기화 ✅
   // 2. historyWrap 내 계산 기록(historyList) 요소들 추가 ✅
-  const addHistory = document.createElement("ul");
-  addHistory.innerText = `${formula} = ${resultNum}`;
-  addHistory.className = "addHistory";
+  //
+  // 이게 위에 출력하는 거임. historyWrap에다가.
+  // = 눌렀을 때 계산하고 바로 List로 넣고 이 함수에서는 List 값을 Wrap으로 옮기는 건가 ?
+  const addHistory = document.createElement("li");
+  addHistory.innerText = historyList[historyList.length - 1];
 
-  // addHistory.appendChild(deleteBtn);
-  historyList.appendChild(addHistory);
-};
-
-const deleteHistory = (index) => {
-  // historyList에서 해당 인덱스 요소 제거 ✅
   const deleteBtn = document.createElement("button");
   deleteBtn.innerText = "X";
-  deleteBtn.className = "deleteBtn";
 
   deleteBtn.addEventListener("click", () => {
-    historyList.removeChild(addHistory);
+    historyWrap.removeChild(addHistory);
   });
 
-  updateHistory();
+  addHistory.appendChild(deleteBtn);
+  historyWrap.appendChild(addHistory);
+};
+
+const deleteHistory = () => {
+  // historyList에서 해당 인덱스 요소 제거 ✅
+  // 이거 5개까지만 보이고 초과될 때마다 지우는 건가 ?
+  historyList.splice(0, 1); // 해당 인덱스부터 1개만 삭제
+
+  const temp = document.querySelector("li");
+
+  historyWrap.removeChild(temp);
+  // updateHistory();
 };
 
 // 계산 함수
@@ -41,18 +48,26 @@ const calculate = (e) => {
   // HTML 내의 &#8592; 는 화살표이며, JavaScript에선 ← 를 사용
   // formula 내의 수식을 계산할 때는 resultNum = eval(formula) 를 사용
   // 계산 결과가 소수일 경우 소수점 두 번째 자리까지만 계산
+  //
+  // 이거 혹시 밑에 이벤트 리스너 안에 함수를 여기다 다 옮기고 .addEventListener("click", calculate()); 하면 됨 ?
+  // nBtn이랑 cBtn이랑 무관하게 btn으로 써도 되나 ?
+  // 된다면 -> else 내용이 중복이라 축약된다는 이점 있음
 };
 
 // .num-btn 이벤트 리스너 등록 ✅
 const numBtn = document.querySelectorAll(".num-btn");
 
-// forEach()를 사용해서 NodeList 각 버튼마다 처리하도록, nBtn은 현재 클릭된 num-btn
+// forEach()를 사용해서 NodeList 각 버튼마다 처리하도록, nBtn은 현재 클릭된 버튼
 numBtn.forEach((nBtn) => {
   nBtn.addEventListener("click", () => {
     // 만약 누른 버튼이 C 라면
+    // 누르면 기록까지 전부 다 없어져야 함
     if (nBtn.innerText == "C") {
       formula = "";
+      resultNum = 0;
+      historyList = [];
       result.innerText = formula;
+      // updateHistory();
     }
     // 또는 누른 버튼이 ← 라면
     else if (nBtn.innerText == "←") {
@@ -70,15 +85,19 @@ numBtn.forEach((nBtn) => {
 // .calc-btn 이벤트 리스너 등록 ✅
 const calcBtn = document.querySelectorAll(".calc-btn"); // calc-btn 클래스 NodeList로
 
-// forEach()를 사용해서 NodeList 각 버튼마다 처리하도록, cBtn은 현재 클릭된 calc-btn
+// forEach()를 사용해서 NodeList 각 버튼마다 처리하도록, cBtn은 현재 클릭된 버튼
 calcBtn.forEach((cBtn) => {
   cBtn.addEventListener("click", () => {
     // 만약 누른 버튼이 = 이라면
     if (cBtn.innerText == "=") {
       resultNum = eval(formula); // 수식(formula)을 계산한 값을 계산 결과(resultNum)에 넣고
       result.innerText = resultNum; // <div>태그에 넣어서 출력
-      formula = resultNum; // 수식(formula)의 값을 계산 결과로 초기화
+      historyList.push(`${formula} = ${resultNum}`); // 수식과 결과를 historyList 배열 끝에 문자열로 추가
+      if (historyList.length == 6) {
+        deleteHistory();
+      }
       updateHistory();
+      formula = resultNum; // 수식(formula)의 값을 계산 결과로 초기화
     }
     // 아니라면
     else {
