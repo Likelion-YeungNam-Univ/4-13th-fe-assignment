@@ -31,11 +31,11 @@ const updateHistory = () => {
 const deleteHistory = () => {
   // historyList에서 해당 인덱스 요소 제거 ✅
   // 이거 5개까지만 보이고 초과될 때마다 지우는 건가 ?
-  historyList.splice(0, 1); // 해당 인덱스부터 1개만 삭제
+  historyList.splice(0, 1); // historyList 배열에서 0번 인덱스 제거
 
-  const temp = document.querySelector("li");
+  const temp = document.querySelector("li"); // 가장 먼저 선택되는 <li>태그(= 가장 먼저 추가됐던 <li>태그)를 temp에 지정
 
-  historyWrap.removeChild(temp);
+  historyWrap.removeChild(temp); // temp에 지정된 <li>태그 제거
   // updateHistory();
 };
 
@@ -106,3 +106,7 @@ calcBtn.forEach((cBtn) => {
     }
   });
 });
+
+// 다음에 켰을 때
+// C 버튼 구현이랑
+// 이벤트 리스너에서 실행되는 함수 옮겨보기
