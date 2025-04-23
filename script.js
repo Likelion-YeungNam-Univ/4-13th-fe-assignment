@@ -94,7 +94,9 @@ calcBtn.forEach((cBtn) => {
   cBtn.addEventListener("click", () => {
     // 만약 누른 버튼이 = 이라면
     if (cBtn.innerText == "=") {
-      resultNum = Number(eval(formula).toFixed(2)); // 수식(formula)을 계산하는데, toFixed(2)로 소수점 2번째 자리까지 출력. parseFloat로 무조건적으로 소수점 2자리까지 출력되는 문제를 해결. 계산된 값을 계산 결과(resultNum)에 넣고
+      resultNum = Number.isInteger(eval(formula)) // 수식(formula)을 계산하는데 Number.isInteger()를 사용해 계산 결과가 정수인지 확인
+        ? eval(formula) // 참이라면 resultNum에 계산 결과를 그대로 대입
+        : parseFloat(eval(formula).toFixed(2)); // 거짓이라면 resultNum에 계산 결과의 소수점 2번째 자리까지 반올림하여 대입, parseFloat로 무조건적으로 소수점 2자리까지 출력되는 문제를 해결.
       result.innerText = resultNum; // 계산 결과를 <div>태그에 넣어서 출력
       historyList.push(`${formula} = ${resultNum}`); // 수식과 결과를 historyList 배열 끝에 문자열로 추가
       // 만약 기록이 5개를 초과한다면
@@ -115,4 +117,3 @@ calcBtn.forEach((cBtn) => {
 
 // 다음에 켰을 때
 // 이벤트 리스너에서 실행되는 함수를 계산 함수 파트로 옮기기
-// 소수점 2자리까지만 출력 -> 조건문으로 결과가 정수면 그냥 출력, 소수점이 3자리 이상으로 생기면 2자리까지만 출력되도록
