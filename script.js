@@ -73,7 +73,7 @@ const calculate = (e) => {
     result.innerText = resultNum; // 계산 결과를 <div>태그에 넣어서 출력
     historyList.push(`${formula} = ${resultNum}`); // 수식과 결과를 historyList 배열 맨 끝에 문자열로 추가
     // 만약 기록이 5개를 초과한다면
-    if (historyList.length == 6) {
+    if (historyList.length > 5) {
       historyList.splice(0, 1); // 첫 번째 인덱스를 삭제
     }
     updateHistory(); // 기록이 추가될 때마다 최신화
