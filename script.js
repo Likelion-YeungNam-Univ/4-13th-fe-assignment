@@ -10,7 +10,7 @@ let historyList = []; // 계산 기록
 // 기록 업데이트
 const updateHistory = () => {
   // 1. historyWrap 내 HTML 초기화 ✅
-  historyWrap.innerHTML = ""; // innerHTML을 초기화 하면 historyWrap 내의 요소를 초기화 -> 만들었던 <li>태그들이 제거됨
+  historyWrap.innerHTML = ""; // innerHTML을 초기화 하면 historyWrap 내의 요소를 초기화 -> 이전에 만들어진 <li>태그들이 제거됨
 
   // 2. historyWrap 내 계산 기록(historyList) 요소들 추가 ✅
   // historyList의 각 요소에 대해서
@@ -27,7 +27,7 @@ const updateHistory = () => {
 
     // 삭제 버튼을 클릭하면 deleteHistory함수를 호출, 이때 해당 요소의 index를 인자로 넘겨서 실행
     deleteBtn.addEventListener("click", () => {
-      deleteHistory(historyList.indexOf(history)); // .indexOf()는 배열에서 요소의 위치를 찾거나 존재 여부를 확인할 때 유용함. 지금은 요소의 index를 알아내기 위해 사용
+      deleteHistory(historyList.indexOf(history)); // .indexOf()는 배열에서 요소의 위치를 찾거나 존재 여부를 확인할 때 유용. 지금은 요소의 index를 알아내기 위해 사용
     });
 
     // 이렇게 만들어진 게 historyWrap에 출력되도록
@@ -52,12 +52,6 @@ const calculate = (e) => {
   // formula 내의 수식을 계산할 때는 resultNum = eval(formula) 를 사용
   // 계산 결과가 소수일 경우 소수점 두 번째 자리까지만 계산
   //
-  // 이거 혹시 밑에 이벤트 리스너 안에 함수를 여기다 다 옮기고 .addEventListener("click", calculate()); 하면 됨 ?
-  // 이렇게 하면 안 됨. 삭제 버튼 이벤트 리스너에서. 화살표 함수로 호출하는 방식이 맞다고. .addEventListener("click", () => {calculate()});
-  // nBtn이랑 cBtn이랑 무관하게 btn으로 써도 되나 ?
-  // 된다면 else 내용이 중복이긴 해서 축약된다는 이점이 있기는 한데
-  // 근데 어짜피 num-btn이랑 calc-btn이랑 따로 이벤트 리스너를 달아주니까 함수만 통합하고 각각 달아줘도 될 듯
-
   // 만약 누른 버튼이 C 라면 기록까지 전부 다 없어져야 함 -> 모든 값 초기화 후 최신화
   if (e.innerText == "C") {
     formula = "";
