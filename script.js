@@ -10,7 +10,13 @@ let historyList = []; // 계산 기록
 // 기록 업데이트
 const updateHistory = () => {
   // 1. historyWrap 내 HTML 초기화 ✅
+  historyWrap.innerHTML = "";
   // 2. historyWrap 내 계산 기록(historyList) 요소들 추가 ✅
+  for (let i = 0; i < historyList.length; i++) {
+    const li = document.createElement("li");
+    li.innerText = historyList[i];
+    historyWrap.appendChild(li);
+  }
 };
 
 const deleteHistory = (index) => {
