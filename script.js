@@ -15,12 +15,12 @@ const updateHistory = () => {
   historyWrap.innerHTML = "";
   // 2. historyWrap 내 계산 기록(historyList) 요소들 추가 ✅
   for (let i = 0; i < historyList.length; i++) {
-    const li = document.createElement("li");
+    const history = document.createElement("li");
     const deleteBtn = document.createElement("button");
     deleteBtn.innerText = "X";
-    li.innerText = historyList[i];
-    historyWrap.appendChild(li);
-    li.appendChild(deleteBtn);
+    history.innerText = historyList[i];
+    historyWrap.appendChild(history);
+    history.appendChild(deleteBtn);
     deleteBtn.addEventListener("click", () => {
       // deleteBtn 이벤트 리스너 추가
       deleteHistory(i);
