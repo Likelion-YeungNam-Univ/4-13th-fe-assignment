@@ -30,7 +30,34 @@ const deleteHistory = (index) => {
 // 계산 함수
 const calculate = (e) => {
   // 1. 클릭된 값 받아오기 ✅
+  const clickedValue = e.target.innerText;
+
   // 2. 클릭된 값에 따라 동작 구현(=, C, ←, 나머지) ✅
+  if (clickedValue == "=") {
+    resultNum = eval(formula);
+    if (Number.isInteger(resultNum)) {
+      // 정수면 그냥 사용
+      resultNum = resultNum;
+    } else {
+      resultNum = parseFloat(resultNum.toFixed(2)); // 정수가 아니면 소수점 둘째 자리까지 표시
+    }
+    result.innerText = resultNum;
+    formula += " = " + resultNum;
+    historyList.push(formula);
+    updateHistory();
+    formula = resultNum.toString(); // "=" 연산 후에 남아있는 result 값에도 "<-" 연산을 할 수 있게끔
+  } else if (clickedValue == "C") {
+    result.innerText = "";
+    formula = "";
+    historyList = [];
+    updateHistory();
+  } else if (clickedValue == "←") {
+    formula = formula.slice(0, -1);
+    result.innerText = formula;
+  } else {
+    formula += clickedValue;
+    result.innerText = formula;
+  }
   // 추가 정보
   // HTML 내의 &#8592; 는 화살표이며, JavaScript에선 ← 를 사용
   // formula 내의 수식을 계산할 때는 resultNum = eval(formula) 를 사용
