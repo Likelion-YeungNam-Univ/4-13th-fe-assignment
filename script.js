@@ -21,7 +21,7 @@ const updateHistory = () => {
 
 const deleteHistory = (index) => {
   // historyList에서 해당 인덱스 요소 제거 ✅
-
+  historyList.splice(index, 1);
   updateHistory();
 };
 
