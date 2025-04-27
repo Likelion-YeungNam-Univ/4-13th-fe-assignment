@@ -1,7 +1,8 @@
 // 요소 선택
 const historyWrap = document.querySelector(".history-wrap");
 const result = document.querySelector(".result");
-const num_bt = document.querySelectorAll(".num-bt");
+const num_btns = document.querySelectorAll(".num-btn");
+const calc_btns = document.querySelectorAll(".calc-btn");
 
 // 변수 선언
 let formula = ""; // 수식
@@ -37,10 +38,15 @@ const calculate = (e) => {
 };
 
 // .num-bt 이벤트 리스너 등록 ✅;
-num_bt.forEach((numBtn) => {
+num_btns.forEach((numBtn) => {
   numBtn.addEventListener("click", (e) => {
     calculate(e);
   });
 });
 
 // .calc-btn 이벤트 리스너 등록 ✅
+calc_btns.forEach((calcBtn) => {
+  calcBtn.addEventListener("click", (e) => {
+    calculate(e);
+  });
+});
