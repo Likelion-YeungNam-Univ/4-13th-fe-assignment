@@ -1,6 +1,7 @@
 // 요소 선택
 const historyWrap = document.querySelector(".history-wrap");
 const result = document.querySelector(".result");
+const num_bt = document.querySelectorAll(".num-bt");
 
 // 변수 선언
 let formula = ""; // 수식
@@ -35,6 +36,11 @@ const calculate = (e) => {
   // 계산 결과가 소수일 경우 소수점 두 번째 자리까지만 계산
 };
 
-// .num-bt 이벤트 리스너 등록 ✅
+// .num-bt 이벤트 리스너 등록 ✅;
+num_bt.forEach((numBtn) => {
+  numBtn.addEventListener("click", (e) => {
+    calculate(e);
+  });
+});
 
 // .calc-btn 이벤트 리스너 등록 ✅
