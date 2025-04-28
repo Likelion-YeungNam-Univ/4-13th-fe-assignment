@@ -77,3 +77,8 @@ const calcBtns = document.querySelectorAll(".calc-btn");
 calcBtns.forEach((btn) => {
   btn.addEventListener("click", calculate);
 });
+
+
+
+
+
