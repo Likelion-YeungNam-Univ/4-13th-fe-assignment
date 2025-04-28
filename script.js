@@ -10,11 +10,19 @@ let historyList = []; // 계산 기록
 // 기록 업데이트
 const updateHistory = () => {
   // 1. historyWrap 내 HTML 초기화 ✅
+  historyWrap.innerHTML = "";
+
   // 2. historyWrap 내 계산 기록(historyList) 요소들 추가 ✅
+  for (let i = 0; i < historyList.length; i++) {
+    historyWrap.innerHTML += `
+    <li>${historyList[i]}<button onClick="deleteHistory(${i})">X</button></li>
+    `
+  }
 };
 
 const deleteHistory = (index) => {
   // historyList에서 해당 인덱스 요소 제거 ✅
+  historyList.splice(index, 1);
 
   updateHistory();
 };
@@ -29,6 +37,9 @@ const calculate = (e) => {
   if (input === "C") {
     formula = "";
     result.innerText = "";
+
+    historyList = [];
+    updateHistory();
     return;
   }
 
@@ -42,8 +53,12 @@ const calculate = (e) => {
   // "=" 버튼 클릭 시 계산 및 소수점 2자리까지 반올림
   if (input === "=") {
     resultNum = eval(formula).toFixed(2) - 0;
+    historyList.unshift(formula + " = " + resultNum);
+
     result.innerText = resultNum;
-    formula = resultNum;
+    formula = resultNum.toString();
+
+    updateHistory();
     return;
   }
 
