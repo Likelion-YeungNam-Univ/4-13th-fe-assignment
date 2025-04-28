@@ -63,7 +63,18 @@ const calculate = (e) => {
   }
 
   // 그 외 숫자나 연산자 버튼은 그대로 추가
-  formula += input;
+  /**
+   * UX 개선
+   * 표시된 입력이 "0"일 때 숫자 입력 시 자동으로 치환
+   * ex) "0" -> [9입력] -> "9"
+   * 입력 흐름을 부드럽게 하기 위함
+   */
+  if (formula === "0" && input >= "0" && input <= "9") {
+    formula = input;
+  } else {
+    formula += input;
+  }
+
   result.innerText = formula;
 };
 
