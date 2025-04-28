@@ -1,6 +1,8 @@
 // 요소 선택
 const historyWrap = document.querySelector(".history-wrap");
 const result = document.querySelector(".result");
+const num = document.querySelectorAll(".num-btn")
+const calc = document.querySelectorAll(".calc-btn")
 
 // 변수 선언
 let formula = ""; // 수식
@@ -9,20 +11,57 @@ let historyList = []; // 계산 기록
 
 // 기록 업데이트
 const updateHistory = () => {
-  // 1. historyWrap 내 HTML 초기화 ✅
-  // 2. historyWrap 내 계산 기록(historyList) 요소들 추가 ✅
+     historyWrap.innerText = ""
+    // 2. historyWrap 내 계산 기록(historyList) 요소들 추가 ✅
+    for(let i = 0; i<historyList.length; i++){
+      let current = historyList[i]
+      const newHistory = document.createElement("li")
+      newHistory.innerText = `${current.formula} = ${current.result}`;
+
+      const deleteBtn = document.createElement("button")
+      deleteBtn.innerText = "삭제"
+      
+      deleteBtn.addEventListener("click", () => {
+        deleteHistory(i)
+      })
+      newHistory.appendChild(deleteBtn);
+      historyWrap.appendChild(newHistory);
+    }
 };
 
 const deleteHistory = (index) => {
   // historyList에서 해당 인덱스 요소 제거 ✅
-
-  updateHistory();
+    historyList.splice(index, 1);
+    updateHistory();
 };
 
 // 계산 함수
 const calculate = (e) => {
   // 1. 클릭된 값 받아오기 ✅
+  const key = e.target.innerText
   // 2. 클릭된 값에 따라 동작 구현(=, C, ←, 나머지) ✅
+  if(key === "=") {
+    resultNum = eval(formula)
+    resultNum = parseFloat(resultNum.toFixed(2))
+    result.innerText = resultNum
+
+    historyList.push({ formula, result: resultNum });
+    updateHistory();
+
+    formula = resultNum.toString();
+  }
+  else if (key === "C") {
+    formula = "";
+    result.innerText = "0";}
+  else if (key === "←"){
+    formula = formula.slice(0, -1);
+    result.innerText = formula || "0";
+
+  }
+  else {
+    formula += key;
+    result.innerText = formula;
+  }
   // 추가 정보
   // HTML 내의 &#8592; 는 화살표이며, JavaScript에선 ← 를 사용
   // formula 내의 수식을 계산할 때는 resultNum = eval(formula) 를 사용
@@ -30,5 +69,15 @@ const calculate = (e) => {
 };
 
 // .num-bt 이벤트 리스너 등록 ✅
+num.forEach((numBtn)=>{
+  numBtn.addEventListener("click",(e) => {
+    calculate(e)
+  })
+})
 
 // .calc-btn 이벤트 리스너 등록 ✅
+calc.forEach((calcBtn)=>{
+  calcBtn.addEventListener("click",(e) => {
+    calculate(e)
+  })
+})
