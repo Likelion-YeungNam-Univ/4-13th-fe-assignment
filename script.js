@@ -22,11 +22,34 @@ const deleteHistory = (index) => {
 // 계산 함수
 const calculate = (e) => {
   // 1. 클릭된 값 받아오기 ✅
+  const value = e.target.innerText;
+  
   // 2. 클릭된 값에 따라 동작 구현(=, C, ←, 나머지) ✅
   // 추가 정보
-  // HTML 내의 &#8592; 는 화살표이며, JavaScript에선 ← 를 사용
   // formula 내의 수식을 계산할 때는 resultNum = eval(formula) 를 사용
   // 계산 결과가 소수일 경우 소수점 두 번째 자리까지만 계산
+
+  if (input === "=") {
+    resultNum = eval(formula).toFixed(2);
+    result.innerText = resultNum;
+    formula = resultNum;
+    return;
+  }
+
+  if (input === "C") {
+    formula = "";
+    result.innerText = formula;
+    return;
+  }
+
+  if (input === "←") {
+    formula = formula.slice(0, -1);
+    result.innerText = formula;
+    return;
+  }
+
+  formula += input; 
+  result.innerText = formula;
 };
 
 // .num-bt 이벤트 리스너 등록 ✅
