@@ -16,6 +16,7 @@ const updateHistory = () => {
     const li = document.createElement("li");
     li.innerText = item;
 
+    //삭제 버튼
     const deleteBtn = document.createElement("button");
     deleteBtn.innerText = "X";
     deleteBtn.addEventListener("click", () => {
@@ -38,6 +39,8 @@ const calculate = (e) => {
   // 1. 클릭된 값 받아오기 ✅
   const input = e.target.textContent;
   // 2. 클릭된 값에 따라 동작 구현(=, C, ←, 나머지) ✅
+
+  // =
   if (input === "=") {
     resultNum = eval(formula);
     result.textContent = Number(resultNum.toFixed(2));
@@ -47,6 +50,7 @@ const calculate = (e) => {
     return;
   }
 
+  // C
   if (input === "C") {
     formula = "";
     result.textContent = "0";
@@ -54,6 +58,7 @@ const calculate = (e) => {
     return;
   }
 
+  // ←
   if (input === "←") {
     formula = formula.slice(0, -1);
     if (formula === "") {
