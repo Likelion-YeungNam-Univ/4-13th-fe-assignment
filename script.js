@@ -10,12 +10,26 @@ let historyList = []; // 계산 기록
 // 기록 업데이트
 const updateHistory = () => {
   // 1. historyWrap 내 HTML 초기화 ✅
+  historyWrap.innerHTML = "";
   // 2. historyWrap 내 계산 기록(historyList) 요소들 추가 ✅
+  historyList.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.innerText = item;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.innerText = "X";
+    deleteBtn.addEventListener("click", () => {
+      deleteHistory(index);
+    });
+
+    li.appendChild(deleteBtn);
+    historyWrap.appendChild(li);
+  });
 };
 
 const deleteHistory = (index) => {
   // historyList에서 해당 인덱스 요소 제거 ✅
-
+  historyList.splice(index, 1);
   updateHistory();
 };
 
