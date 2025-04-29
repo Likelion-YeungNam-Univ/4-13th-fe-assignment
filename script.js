@@ -9,26 +9,58 @@ let historyList = []; // 계산 기록
 
 // 기록 업데이트
 const updateHistory = () => {
-  // 1. historyWrap 내 HTML 초기화 ✅
-  // 2. historyWrap 내 계산 기록(historyList) 요소들 추가 ✅
+  historyWrap.innerHTML = "";
+  historyList.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span>${item.formula} = ${item.result}</span>
+      <button onclick="deleteHistory(${index})">삭제</button>
+    `;
+    historyWrap.appendChild(li);
+  });
 };
 
 const deleteHistory = (index) => {
-  // historyList에서 해당 인덱스 요소 제거 ✅
-
+  historyList.splice(index, 1);
   updateHistory();
 };
 
-// 계산 함수
 const calculate = (e) => {
-  // 1. 클릭된 값 받아오기 ✅
-  // 2. 클릭된 값에 따라 동작 구현(=, C, ←, 나머지) ✅
-  // 추가 정보
-  // HTML 내의 &#8592; 는 화살표이며, JavaScript에선 ← 를 사용
-  // formula 내의 수식을 계산할 때는 resultNum = eval(formula) 를 사용
-  // 계산 결과가 소수일 경우 소수점 두 번째 자리까지만 계산
+  const value = e.target.innerText;
+
+  if (value === "=") {
+    try {
+      resultNum = eval(formula);
+      resultNum = Math.round(resultNum * 100) / 100;
+      result.innerText = resultNum;
+
+      historyList.unshift({
+        formula: formula,
+        result: resultNum,
+      });
+
+      updateHistory();
+      formula = resultNum.toString();
+    } catch {
+      result.innerText = "error";
+      formula = "";
+    }
+  } else if (value === "C") {
+    formula = "";
+    result.innerText = "0";
+  } else if (value === "←") {
+    formula = formula.slice(0, -1);
+    result.innerText = formula || "0";
+  } else {
+    formula += value;
+    result.innerText = formula;
+  }
 };
 
-// .num-bt 이벤트 리스너 등록 ✅
+document.querySelectorAll(".num-btn").forEach((btn) => {
+  btn.addEventListener("click", calculate);
+});
 
-// .calc-btn 이벤트 리스너 등록 ✅
+document.querySelectorAll(".calc-btn").forEach((btn) => {
+  btn.addEventListener("click", calculate);
+});
