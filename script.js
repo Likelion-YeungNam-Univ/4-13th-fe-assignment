@@ -74,7 +74,7 @@ const calculate = (e) => {
     historyList.unshift(`${formula} = ${resultNum}`); // 수식과 결과를 historyList 배열 맨 앞에 문자열로 추가
     // 만약 기록이 5개를 초과한다면
     if (historyList.length > 5) {
-      historyList.splice(0, 1); // 첫 번째 인덱스를 삭제
+      historyList.splice(5, 1); // 마지막 인덱스를 삭제
     }
     updateHistory(); // 기록이 추가될 때마다 최신화
     formula = String(resultNum); // 수식(formula)의 값을 계산 결과로 초기화, eval()로 문자열 수식을 계산하면 결과가 숫자(Number) 타입으로 변하는데 String()을 통해 다시 문자열 형식으로 변경
