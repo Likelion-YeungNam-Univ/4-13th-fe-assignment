@@ -71,7 +71,7 @@ const calculate = (e) => {
       ? eval(formula) // 참이라면 resultNum에 계산 결과를 그대로 대입
       : parseFloat(eval(formula).toFixed(2)); // 거짓이라면 resultNum에 계산 결과의 소수점 2번째 자리까지 반올림하여 대입, parseFloat()로 무조건적으로 소수점 2자리까지 출력되는 문제를 해결
     result.innerText = resultNum; // 계산 결과를 <div>태그에 넣어서 출력
-    historyList.push(`${formula} = ${resultNum}`); // 수식과 결과를 historyList 배열 맨 끝에 문자열로 추가
+    historyList.unshift(`${formula} = ${resultNum}`); // 수식과 결과를 historyList 배열 맨 앞에 문자열로 추가
     // 만약 기록이 5개를 초과한다면
     if (historyList.length > 5) {
       historyList.splice(0, 1); // 첫 번째 인덱스를 삭제
