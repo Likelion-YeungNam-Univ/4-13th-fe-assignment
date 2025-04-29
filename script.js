@@ -42,7 +42,7 @@ const calculate = (e) => {
       updateHistory();
       formula = resultNum.toString();
     } catch {
-      result.innerText = "오류";
+      result.innerText = "error";
       formula = "";
     }
   } else if (value === "C") {
